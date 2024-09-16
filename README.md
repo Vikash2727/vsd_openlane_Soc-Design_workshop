@@ -424,3 +424,15 @@ after using commands
 ![VirtualBox_soc workshop_17_09_2024_02_54_49 2](https://github.com/user-attachments/assets/a0cbe9a9-7497-4898-8724-25ee662c6598)
 ![VirtualBox_soc workshop_17_09_2024_02_55_31 3](https://github.com/user-attachments/assets/45729e86-44b7-4bf6-8d45-9204e1462da8)
 
+### placement layout in magic 
+```bash
+home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+
+![VirtualBox_soc workshop_17_09_2024_04_47_08 placem1](https://github.com/user-attachments/assets/50bca4a6-44e2-43d9-b567-cdf15bbe00cb)
+![VirtualBox_soc workshop_17_09_2024_04_50_50 place sky130vsd](https://github.com/user-attachments/assets/f531ee88-4e5d-4d79-bee6-a0a3359e9258)
+
+ON selecting particular layer and type 'expand'in tkcon get the metal layer layout
+
+![VirtualBox_soc workshop_17_09_2024_04_55_42 metal layer expand](https://github.com/user-attachments/assets/d055c662-2753-49b1-9a84-2126cbab23ec)
+
