@@ -270,4 +270,82 @@ above command is use
 
 **steps to convert grid information to track info**
 
+  we have to extract file from vsdstdcell and copy it to picorv32a
+
+  Before doing this, some guidelines should be followed 
+
+  (1).Input and output port lie on intersection of the vertical and horizontal track
+
+  (2).Width of standard cell should be odd multiple of X-track pitch
+
+  **To check out,how accurate  is the layout**
+
+  `openlane/pdks/sky130/lib.tech/openlane/sky130_fd_sc_hd/less track.info
+  `
+  ![VirtualBox_soc workshop_14_09_2024_16_03_32 metal layer for guideline1](https://github.com/user-attachments/assets/fe6ce641-e411-467b-b21f-45c847006f9e)
+
+in tkcon put the value of grid 
+ set grid value - grid 0.46um 0.34um 0.23um 0.17um
+
+![VirtualBox_soc workshop_14_09_2024_16_22_20 grid guideline 1 labelling](https://github.com/user-attachments/assets/9a08efcd-851b-4b2e-bfa4-6edd6ebbf07f)
+
+**showing intersection of pitch**
+
+![VirtualBox_soc workshop_14_09_2024_16_24_17 intersection of horizontal and vert  track](https://github.com/user-attachments/assets/6edca951-c860-40f0-b7b6-ae5fe0c41f2a)
+
+**old multiple of X track pitch..observed by white line that lie at two and half of box**
+
+![VirtualBox_soc workshop_14_09_2024_16_25_12 track pitch at half of complete box guideline2](https://github.com/user-attachments/assets/492816e6-a3b4-4216-9274-8363c4778484)
+
+
+after doing this all 
+
+we have to save in grid 
+`% save sky130_vsdinv.mag
+`
+
+after saving it ,it come in vsdstdcelldesign file
+
+![VirtualBox_soc workshop_14_09_2024_18_50_18 vsdin copied in vsd](https://github.com/user-attachments/assets/6faae145-088d-4b20-830b-bc977ba61e0c)
+
+
+
+now Open Magic tool
+`vsdstdcelldesign $  magic -T sky130A.tech sky130_vsdinv.mag
+`
+![VirtualBox_soc workshop_14_09_2024_18_53_16 after saving vsdin and then run in magic](https://github.com/user-attachments/assets/97b56844-2e14-409d-bc32-1d3cb55e4855)
+
+in tkcon  
+
+%lef write
+
+after that check the lef file
+
+`less sky130_vsdin.lef
+`
+![VirtualBox_soc workshop_14_09_2024_18_56_50 less sky130_vsdinv lef file](https://github.com/user-attachments/assets/3eb4a7c9-df0c-4f38-ba5e-a6b0df0cece6)
+
+lef file has been extracted now its need to be copy to picorv32a
+
+path need to be copied shown in figure
+
+![VirtualBox_soc workshop_14_09_2024_19_06_07 sky fd sc hd in lib](https://github.com/user-attachments/assets/a2cc351d-333c-4e49-87c8-2613e305e3db)
+
+Before Synthesis go in 'libs' directory and then 
+`less sky130_fd_sc_hd__typical.lib
+`
+
+A library come out , entire characterization is there 
+
+![VirtualBox_soc workshop_14_09_2024_19_11_31 library contain all characterization](https://github.com/user-attachments/assets/e77cb23a-14c9-46cc-8e72-b89b37ec782c)
+![VirtualBox_soc workshop_14_09_2024_19_12_07 library contain  all charcterization](https://github.com/user-attachments/assets/58f7b9c2-0f46-4c30-a618-b398dafac6a4)
+
+Now go in picorv32a and edit config.tcl
+
+`vim config.tcl
+`
+
+after editing ,below is updated config.tcl file
+
+![VirtualBox_soc workshop_16_09_2024_19_13_57 config tcl file](https://github.com/user-attachments/assets/e55c0124-22ac-4fa1-b948-6569585418bf)
 
