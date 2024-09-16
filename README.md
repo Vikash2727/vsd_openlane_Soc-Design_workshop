@@ -174,4 +174,100 @@ cd Desktop/work/tools/openlane/designs/picorv32a/runs/latest folder/results/floo
 ![VirtualBox_soc workshop_11_09_2024_21_12_46 floorplan layout](https://github.com/user-attachments/assets/f923044d-618c-4927-b7fc-a0ef1fc0cdff)
 ![VirtualBox_soc workshop_11_09_2024_21_13_21 tkcon floorplan](https://github.com/user-attachments/assets/f1eef4e3-94e0-4fdd-afa7-b440091bca47)
 
-###Placement
+### Placement
+```bash
+run_placement
+```
+![VirtualBox_soc workshop_11_09_2024_21_44_40 run placement](https://github.com/user-attachments/assets/52ada925-a3f7-41d4-8ca5-55af608afa96)
+
+**To see the layout, need to go in magic tool**
+
+similar steps as floorplan should be followed
+
+![VirtualBox_soc workshop_11_09_2024_21_47_5 def file of placement](https://github.com/user-attachments/assets/bbda1fc7-4ed1-49a8-9444-a89b8915dc3d)
+
+ **layout**
+ 
+![VirtualBox_soc workshop_11_09_2024_22_48_44 placement layout](https://github.com/user-attachments/assets/a0a93d68-65d2-4887-963e-884d7ad2ce0a)
+
+**complete layout**
+
+![VirtualBox_soc workshop_11_09_2024_22_49_05 placement layout res1](https://github.com/user-attachments/assets/d0010154-9edd-4e41-8bec-ed75db50494b)
+
+**tkcon file**
+
+![VirtualBox_soc workshop_11_09_2024_22_51_35 placement tckon selest](https://github.com/user-attachments/assets/c410adba-4bce-4298-9a29-dda977dd7389)
+
+# Day3- Design Library Cells using using Magic layout and ngspice characterization
+```bash
+https://github.com/nickson-jose/vsdstdcelldesign.git
+```
+we need to git clone openlane with above github repository
+so that we get 'vsdstdcelldesign'  directory in openlane and to see complete cmos layout
+
+![VirtualBox_soc workshop_12_09_2024_01_03_29 copying sky130A file in directory that is clone  vsdstdcelldesign](https://github.com/user-attachments/assets/22aade5a-ab5a-4f6c-a590-616b2d9947be)
+
+![VirtualBox_soc workshop_12_09_2024_01_08_42 inverter layout](https://github.com/user-attachments/assets/4d5c5459-c45e-4055-a262-898ffdf3f116)
+
+Getting CMOS Layout
+   For seeing layout in magic command is 
+
+   
+  ` magic -T sky130.tech sky_inv_mag &
+   `
+![VirtualBox_soc workshop_12_09_2024_01_09_26 layout of inverter](https://github.com/user-attachments/assets/6de3db9d-3052-4dbb-ada9-f6d6c471d321)
+
+**showing one layer**
+
+![VirtualBox_soc workshop_12_09_2024_01_33_03 showing nmos](https://github.com/user-attachments/assets/c88b5036-dfca-4494-b275-9106c03ddf71)
+![VirtualBox_soc workshop_12_09_2024_01_22_38 complete layout of inverter](https://github.com/user-attachments/assets/d59f8cf0-852c-43f9-bfb1-371c3ca6a19a)
+
+ **showing error in drc when some portion is removed**
+
+ ![VirtualBox_soc workshop_12_09_2024_01_40_47 drc error](https://github.com/user-attachments/assets/911180e5-8282-4774-bf84-b4daecaba681)
+
+ Error define in tkcon
+
+ ![VirtualBox_soc workshop_12_09_2024_01_41_43 error in tckon file](https://github.com/user-attachments/assets/f521425e-4eb8-4bc1-8f91-0b242f298a75)
+
+**To extract spice list and further create final spice deck**
+
+open tkcon file and follow the steps
+
+%pwd 
+%extract all
+%ext2spice cthresh 0 rthresh 0
+%ext2spice
+
+![VirtualBox_soc workshop_12_09_2024_01_22_38 complete layout of inverter](https://github.com/user-attachments/assets/5dda2745-d3c2-4461-aa15-e06e2bac98f2)
+
+**editing done in sky130_inv.spice file**
+
+`cd vsdstdcelldesign
+ls -ltr
+Vim sky130_inv.spice
+
+vim-this command is use to open editor window for file
+
+after doing modification
+![VirtualBox_soc workshop_12_09_2024_18_46_01 cmos inverter data](https://github.com/user-attachments/assets/9bc43013-1a30-4666-a898-eeebbc2c9a05)
+
+**To run Spice model**
+ `$ ngspice sky130_inv.spice
+ `
+ ![VirtualBox_soc workshop_12_09_2024_19_25_31 ngspice model](https://github.com/user-attachments/assets/773248f6-f14a-427a-b442-d89c8e773232)
+
+ **To get plot**
+
+ `ngspice 1 .> plot y vs time a
+`
+above command is use
+
+![VirtualBox_soc workshop_12_09_2024_19_27_11 plot y vs time a](https://github.com/user-attachments/assets/8f570eb3-87d1-4954-ae5d-2146c1ff73f9)
+
+ 
+# Day4- Pre layout timing analysis and importance of good clock tree
+
+**steps to convert grid information to track info**
+
+
