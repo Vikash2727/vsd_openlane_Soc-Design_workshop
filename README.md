@@ -21,7 +21,7 @@ OpenlANE is opensource Flow which contain different tools Which are require in d
  Routing- In this step,connectionof cells are done.
 
  STA(Static time analysis)- timing verification,timing analysis is done in this step ,OpenSTA is use here.
- ![Screenshot 2024-09-08 232036](https://github.com/user-attachments/assets/a90e1ea9-2ace-41ee-a780-ccef741cdb47)
+ 
 
 ### Path require for openlane design steps 
 
@@ -348,4 +348,79 @@ Now go in picorv32a and edit config.tcl
 after editing ,below is updated config.tcl file
 
 ![VirtualBox_soc workshop_16_09_2024_19_13_57 config tcl file](https://github.com/user-attachments/assets/e55c0124-22ac-4fa1-b948-6569585418bf)
+ After running Synthesis 
+ 
+![VirtualBox_soc workshop_17_09_2024_01_40_02 sy thesis ](https://github.com/user-attachments/assets/b477f863-7652-47b3-b36d-a78ae29f66f0)
+ ![VirtualBox_soc workshop_17_09_2024_01_40_38 gettin tns and wns 1](https://github.com/user-attachments/assets/5b7e2752-b97e-4bf7-9d80-55f92ed36de2)
+
+ so from synthesis we get 
+
+ chip area =147712.918400
+
+ tns=-711.59
+
+ wns=-23.89
+
+ here tns=total negative slack
+
+  **Some parameter get change to make slack zero for proper synthesis and further steps like floorplan and placement**
+
+  ```bash
+prep -design picorv32a -tag latest folder -overwrite
+
+set lefs[glob $:env(DESIGN_DIR)/src/*.lef]
+
+add_lef -src $lefs
+
+echo $::env(SYNTH_STRATEGY)
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+
+echo $:(SYNTH_BUFFERING)
+
+echo $::env(SYNTH_SIZING)
+
+set ::env(SYNTH_SIZING) 1
+
+set ::env(SYNTH_DRIVING_CELL)
+
+
+![VirtualBox_soc workshop_17_09_2024_02_15_58 chip area increase](https://github.com/user-attachments/assets/9b618b7f-f734-41ee-b203-e1232d64838c)
+
+![VirtualBox_soc workshop_17_09_2024_02_16_15 tns and wns become 0](https://github.com/user-attachments/assets/deddd733-ecc9-4a03-b2c3-b4cc56871ffc)
+
+' chip area increased and tns and wns vlaue decreased ..slack become zero'
+
+ **Floorplan**
+
+ following commands are use to run floorplan
+
+```bash
+init_floorplan
+
+place_io
+
+tap_decap_or
+```
+Before using commands some errors come out
+![VirtualBox_soc workshop_17_09_2024_02_31_22 running floorplan](https://github.com/user-attachments/assets/32e52339-ffab-4f8a-9202-0f15739c3085)
+![VirtualBox_soc workshop_17_09_2024_02_31_38 giving error](https://github.com/user-attachments/assets/f0070dae-6035-4f68-9334-9e67901f9ed2)
+
+after using commands
+
+![VirtualBox_soc workshop_17_09_2024_02_33_11 using commands floorplan1](https://github.com/user-attachments/assets/411d1c98-c86f-4557-b393-ddb5a1ab642b)
+
+**reports in merged file**
+
+```openlane/designs/picorv32a/runs/latest date folder/tmp/less merged.lef
+```
+![VirtualBox_soc workshop_17_09_2024_02_36_26 merged2](https://github.com/user-attachments/assets/9af6470a-b195-4d83-ab3f-a7e95fc59704)
+![VirtualBox_soc workshop_17_09_2024_02_35_57 less merged file1](https://github.com/user-attachments/assets/40b907de-9c05-4f0d-964e-c2ee28439e99)
+
+### Placement
+ `run_placement
+ `
+ ![VirtualBox_soc workshop_17_09_2024_02_54_31 pl1](https://github.com/user-attachments/assets/b33dfdcb-6bd7-4a97-bf7a-84f76be7ddf5)
+![VirtualBox_soc workshop_17_09_2024_02_55_12 3](https://github.com/user-attachments/assets/a965aa3e-9ce0-4dfa-808e-3e3fe5202b57)
+![VirtualBox_soc workshop_17_09_2024_02_54_49 2](https://github.com/user-attachments/assets/a0cbe9a9-7497-4898-8724-25ee662c6598)
+![VirtualBox_soc workshop_17_09_2024_02_55_31 3](https://github.com/user-attachments/assets/45729e86-44b7-4bf6-8d45-9204e1462da8)
 
