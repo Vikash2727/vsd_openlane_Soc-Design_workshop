@@ -436,3 +436,44 @@ ON selecting particular layer and type 'expand'in tkcon get the metal layer layo
 
 ![VirtualBox_soc workshop_17_09_2024_04_55_42 metal layer expand](https://github.com/user-attachments/assets/d055c662-2753-49b1-9a84-2126cbab23ec)
 
+**Creating pre sta file and my_base.sdc file and also analysing slack reduction**
+
+```cd openlane $ vim Pre_sta.conf
+```
+![VirtualBox_soc workshop_17_09_2024_05_40_54 pre sta](https://github.com/user-attachments/assets/41327ad0-3565-4f2a-824c-d7995f1e7478)
+
+creating sta file in src
+
+```bash
+picrv32a/src/touch my_base.sdc
+```
+above command is used for opening my_base.sdc 
+
+```src/vim my_base.sdc
+```
+then edit my_base.sdc file
+![VirtualBox_soc workshop_17_09_2024_14_32_36 pure correct my base sdc](https://github.com/user-attachments/assets/f998758a-efad-4e8d-bf4d-ba6468d6b2ec)
+
+```openlane$ sta Pre_sta.conf
+use for checking pre sta analysis
+```
+![VirtualBox_soc workshop_17_09_2024_12_52_27 pre sta reult](https://github.com/user-attachments/assets/3d5f9d5b-4bfc-4157-849f-9bc875d7bd24)
+
+Slack reduced 
+
+![VirtualBox_soc workshop_17_09_2024_13_51_03 slack reduced](https://github.com/user-attachments/assets/14797d13-67f8-40ac-af69-cfe46de1ba5d)
+
+**CTS**
+`run_cts
+`
+![VirtualBox_soc workshop_17_09_2024_14_09_10 cts done](https://github.com/user-attachments/assets/160a9bf9-a957-4dae-aa6c-785f3ff41022)
+
+file created in picorv32a
+
+![VirtualBox_soc workshop_17_09_2024_14_09_58 file created](https://github.com/user-attachments/assets/30ae4376-0889-4dbb-ac2f-52fe80409e7e)
+
+CTS flow
+
+![VirtualBox_soc workshop_17_09_2024_14_17_30 prcoks function cts tcl](https://github.com/user-attachments/assets/317aeef3-1113-48dc-8e83-ea703e9207d3)
+![VirtualBox_soc workshop_17_09_2024_14_19_13 cts run in cts tcl](https://github.com/user-attachments/assets/f677658a-fa2e-4ea9-aa68-a6f5b83fea98)
+
