@@ -265,7 +265,52 @@ above command is use
 
 ![VirtualBox_soc workshop_12_09_2024_19_27_11 plot y vs time a](https://github.com/user-attachments/assets/8f570eb3-87d1-4954-ae5d-2146c1ff73f9)
 
- 
+
+ **introduction to Magic tool And DRC**
+ some steps and commands need to be followed to enter to drc directory
+
+ ```bash
+ wget opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+tar xfz drc_tests.tgz
+cd drc_tests
+ls -al
+```
+ ![VirtualBox_soc workshop_12_09_2024_21_21_04 drc file](https://github.com/user-attachments/assets/b7de384f-9a6c-4876-b205-8056ec1bee29)
+
+To get magic file data 
+`vi.magicrc`
+
+![VirtualBox_soc workshop_12_09_2024_21_26_05 magicrc file](https://github.com/user-attachments/assets/30bd6c21-6726-43d7-896a-aa9d32be1a80)
+
+for Opening Magic 
+```bash
+drc_test magic _d XR
+```
+this command is to be followed
+
+ ![VirtualBox_soc workshop_12_09_2024_21_31_34 magic D xr](https://github.com/user-attachments/assets/dae021cd-966f-47d7-a5af-0f69de254c5c)
+
+ `openlane/pdks/sky130/lib.tech/openlane/sky130_fd_sc_hd/less track.info`
+
+![VirtualBox_soc workshop_12_09_2024_22_07_28 magic rc opening](https://github.com/user-attachments/assets/632426a3-7fab-49d0-b787-6790a7f06a7c)
+
+showing dimension in tkcon using 'box'command
+
+![VirtualBox_soc workshop_12_09_2024_22_36_16 box dimension](https://github.com/user-attachments/assets/2c8b6887-1801-4f33-aaec-9c580d6fe0e7)
+
+data in tckon using 'why' commands
+
+`load poly`
+![VirtualBox_soc workshop_13_09_2024_12_23_11 load poly](https://github.com/user-attachments/assets/701d002c-972b-4afe-ad5c-6056b3e04f7c)
+
+`selecting empty area and filling of layer`
+![VirtualBox_soc workshop_16_09_2024_23_28_37 empty area cell](https://github.com/user-attachments/assets/8bbb7cb8-8e1c-4a43-a671-7385082a156f)
+
+using 'cif see VIA2' in tkcon blackbox come on layer
+
+![VirtualBox_soc workshop_16_09_2024_23_29_16 cif via2](https://github.com/user-attachments/assets/454a9d2f-525b-4de4-8ee0-1381822d209a)
+
+
 # Day4- Pre layout timing analysis and importance of good clock tree
 
 **steps to convert grid information to track info**
@@ -280,8 +325,11 @@ above command is use
 
   **To check out,how accurate  is the layout**
 
-  `openlane/pdks/sky130/lib.tech/openlane/sky130_fd_sc_hd/less track.info
-  `
+ 
+
+![VirtualBox_soc workshop_12_09_2024_23_01_45 drc why](https://github.com/user-attachments/assets/3ca7bee6-24f9-48c5-94fe-a1235d78b3dd)
+
+
   ![VirtualBox_soc workshop_14_09_2024_16_03_32 metal layer for guideline1](https://github.com/user-attachments/assets/fe6ce641-e411-467b-b21f-45c847006f9e)
 
 in tkcon put the value of grid 
@@ -382,7 +430,7 @@ echo $::env(SYNTH_SIZING)
 set ::env(SYNTH_SIZING) 1
 
 set ::env(SYNTH_DRIVING_CELL)
-
+```
 
 ![VirtualBox_soc workshop_17_09_2024_02_15_58 chip area increase](https://github.com/user-attachments/assets/9b618b7f-f734-41ee-b203-e1232d64838c)
 
@@ -477,3 +525,40 @@ CTS flow
 ![VirtualBox_soc workshop_17_09_2024_14_17_30 prcoks function cts tcl](https://github.com/user-attachments/assets/317aeef3-1113-48dc-8e83-ea703e9207d3)
 ![VirtualBox_soc workshop_17_09_2024_14_19_13 cts run in cts tcl](https://github.com/user-attachments/assets/f677658a-fa2e-4ea9-aa68-a6f5b83fea98)
 
+# Day5 - Final steps for RTL2GDS using tritonroute and opensta
+
+**parameters to be added before running power distribution and routing**
+
+![VirtualBox_soc workshop_17_09_2024_16_51_49 cts function setting](https://github.com/user-attachments/assets/cc76f094-a10d-4561-969d-ccbb62e6b9aa)
+![VirtualBox_soc workshop_17_09_2024_16_58_38 different parameters to be set](https://github.com/user-attachments/assets/03265b7f-2834-437d-9234-e0c29183eafc)
+
+```bash
+read_lef /openLANE_flow/designs/picorv32a/runs/16-09_20_02/tmp/merged.lef
+read_def /openLANE_flow/designs/picorv32a/runs/16-09_20_02/results/cts/picorv32a.cts.def
+
+write_db picoo.db
+read_verilog /openLANE_flow/designs/picorv32a/runs/16-09_20_02/results/synthesis/picorv32a.synthesis_cts.v
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+link_design picorv32a
+
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+set_propagated_clock [all_clocks]
+```
+
+`gen_pdn
+`
+above command is use for power distribution
+![VirtualBox_soc workshop_17_09_2024_17_24_12 gnd pdn running ](https://github.com/user-attachments/assets/2b2c69da-0c0d-486e-9133-641838a32be4)
+
+FInal step here to be discussed is routing that is done using triton 
+
+`run_routing
+`
+this command is use for running routing
+
+![VirtualBox_soc workshop_17_09_2024_17_35_49 running routing](https://github.com/user-attachments/assets/df6812fe-b394-4941-8262-42d251439fc7)
+
+![VirtualBox_soc workshop_17_09_2024_19_12_04 preroute v](https://github.com/user-attachments/assets/04d57415-1ec5-4fe9-a96a-f0aa8b10f74b)
+
+
+ 
